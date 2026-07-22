@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1F1B;
+    --paper:#F4F1E9;
+    --brass:#C9A24B;
+    --sage:#7A9E8E;
+    --line:rgba(14,31,27,0.14);
+    --white:#FFFDF8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{display:flex; justify-content:space-between; align-items:center; padding:28px 0;}
+  .logo{font-family:'Fraunces',serif; font-weight:600; font-size:1.3rem; display:flex; align-items:center; gap:8px;}
+  .logo .dot{width:9px; height:9px; border-radius:50%; background:var(--brass); display:inline-block;}
+  .nav-actions{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  .nav-cta{background:var(--ink); color:var(--white); padding:10px 20px; border-radius:100px; font-size:0.9rem; font-weight:500; text-decoration:none;}
+  .nav-ghost{padding:10px 16px; border-radius:100px; font-size:0.9rem; font-weight:500; text-decoration:none; border:1px solid var(--line); color:var(--ink);}
+
+  /* HERO */
+  .hero{padding:64px 0 80px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--sage); margin-bottom:18px; display:flex; align-items:center; gap:8px;}
+  .eyebrow::before{content:''; width:20px; height:1px; background:var(--sage);}
+  h1{font-size:3.1rem; line-height:1.06; margin-bottom:22px;}
+  h1 em{font-style:italic; color:var(--brass);}
+  .hero p.lede{font-size:1.15rem; color:rgba(14,31,27,0.75); max-width:46ch; margin-bottom:32px;}
+  .hero-ctas{display:flex; gap:14px; align-items:center;}
+  .btn-primary{background:var(--ink); color:var(--white); padding:15px 26px; border-radius:100px; font-weight:500; text-decoration:none; display:inline-block;}
+  .btn-ghost{padding:15px 22px; text-decoration:none; font-weight:500; border-bottom:1px solid var(--ink);}
+
+  /* CARD VISUAL */
+  .card-stage{position:relative; height:340px; display:flex; align-items:center; justify-content:center;}
+  .credit-card{
+    width:320px; aspect-ratio:1.586/1; border-radius:18px;
+    background:linear-gradient(155deg, #16332C 0%, #0E1F1B 60%, #0A1613 100%);
+    box-shadow:0 30px 60px -20px rgba(14,31,27,0.45);
+    position:relative; overflow:hidden; padding:26px;
+    color:var(--white);
+  }
+  .credit-card::after{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 85% 15%, rgba(201,162,75,0.35), transparent 55%);
+  }
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:2;}
+  .card-brand{font-family:'Fraunces',serif; font-size:1.05rem; font-weight:600;}
+  .chip{width:34px; height:26px; border-radius:5px; background:linear-gradient(135deg,#C9A24B,#E6C77A);}
+  .card-balance{position:relative; z-index:2; margin-top:34px;}
+  .card-balance .label{font-family:'IBM Plex Mono',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(244,241,233,0.55); margin-bottom:6px;}
+  .card-balance .amount{font-family:'IBM Plex Mono',monospace; font-size:1.7rem; font-weight:500;}
+  .meter{margin-top:16px; height:5px; background:rgba(244,241,233,0.15); border-radius:100px; position:relative; z-index:2; overflow:hidden;}
+  .meter-fill{width:63%; height:100%; background:var(--brass); border-radius:100px;}
+  .card-foot{position:relative; z-index:2; display:flex; justify-content:space-between; margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:rgba(244,241,233,0.6);}
+
+  /* TRUST STRIP */
+  .trust-strip{border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:26px 0;}
+  .trust-strip .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;}
+  .trust-item{font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:rgba(14,31,27,0.7); display:flex; align-items:center; gap:8px;}
+  .trust-item .n{color:var(--ink); font-weight:600;}
+
+  /* SECTION */
+  section{padding:80px 0;}
+  .section-head{max-width:52ch; margin-bottom:48px;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:2.1rem; line-height:1.15;}
+
+  /* HOW IT WORKS */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden;}
+  .step{background:var(--paper); padding:32px 28px;}
+  .step .num{font-family:'IBM Plex Mono',monospace; color:var(--brass); font-size:0.85rem; margin-bottom:14px;}
+  .step h3{font-size:1.15rem; margin-bottom:10px;}
+  .step p{color:rgba(14,31,27,0.68); font-size:0.95rem;}
+
+  /* PRICING */
+  .pricing-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px;}
+  .plan{background:var(--white); border:1px solid var(--line); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column;}
+  .plan.featured{background:var(--ink); color:var(--white); border-color:var(--ink); position:relative;}
+  .plan.featured .plan-tag{background:var(--brass); color:var(--ink);}
+  .plan-tag{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; background:rgba(14,31,27,0.08); padding:5px 10px; border-radius:100px; margin-bottom:18px; width:fit-content;}
+  .plan h3{font-size:1.3rem; margin-bottom:6px;}
+  .plan .price{font-family:'IBM Plex Mono',monospace; font-size:2.2rem; font-weight:500; margin:14px 0 4px;}
+  .plan .price span{font-size:0.95rem; font-weight:400; opacity:0.6;}
+  .plan .sub{font-size:0.85rem; opacity:0.65; margin-bottom:22px;}
+  .plan ul{list-style:none; margin-bottom:26px; flex-grow:1;}
+  .plan li{font-size:0.9rem; padding:9px 0; border-top:1px solid var(--line); display:flex; gap:10px;}
+  .plan.featured li{border-top:1px solid rgba(244,241,233,0.14);}
+  .plan li::before{content:'—'; color:var(--brass); flex-shrink:0;}
+  .plan-btn{text-align:center; padding:13px; border-radius:100px; font-weight:500; text-decoration:none; background:var(--ink); color:var(--white);}
+  .plan.featured .plan-btn{background:var(--brass); color:var(--ink);}
+  .plan-link{display:flex; flex-direction:column; text-decoration:none;}
+  .plan-link:hover{transform:translateY(-2px); box-shadow:0 16px 30px -16px rgba(14,31,27,0.25); transition:all .2s ease;}
+  .discovery-link{display:inline-flex; align-items:center; gap:8px; margin-top:8px; font-weight:600; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--ink); width:fit-content;}
+
+  /* FAQ / TRUST */
+  .faq{border-top:1px solid var(--line);}
+  .faq-item{padding:26px 0; border-bottom:1px solid var(--line);}
+  .faq-item h3{font-size:1.05rem; margin-bottom:8px; font-family:'Inter',sans-serif; font-weight:600;}
+  .faq-item p{color:rgba(14,31,27,0.68); font-size:0.95rem; max-width:60ch;}
+
+  footer{padding:48px 0; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  footer p{font-size:0.85rem; color:rgba(14,31,27,0.55);}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr; padding-top:20px;}
+    h1{font-size:2.3rem;}
+    .steps, .pricing-grid{grid-template-columns:1fr;}
+    .card-stage{height:auto; margin-top:20px;}
+    .trust-strip .wrap{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="logo"><span class="dot"></span>Runway</div>
+    <div class="nav-actions">
+      <a href="https://wa.me/+254769173792?text=Hello%20Runway%2C%20I%20would%20like%20to%20request%20a%20demo%20before%20purchasing." class="nav-ghost">Request demo</a>
+      <a href="#pricing" class="nav-cta">Buy credit</a>
+    </div>
+  </nav>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Prepaid API access</div>
+      <h1>Load it once.<br>Use it till it's <em>gone.</em></h1>
+      <p class="lede">Runway gives you a single API key loaded with real, spendable credit for Claude and other leading models — Sonnet, Opus, Haiku, and more. No subscription. No auto-renew. No surprise invoice. When the balance hits zero, it stops — that's the whole deal.</p>
+      <p class="lede" style="margin-top:-8px; font-weight:600; color:var(--ink);">Get Full Claude access from as low as $10 — no subscription, works with Claude Co-Worker and Claude Code.</p>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn-primary">See credit packs</a>
+        <a href="https://wa.me/+254769173792?text=Hello%20Runway%2C%20I%20would%20like%20to%20request%20a%20discovery%20call%20before%20purchasing." class="btn-ghost">Request a discovery call</a>
+      </div>
+    </div>
+    <div class="card-stage">
+      <div class="credit-card">
+        <div class="card-top">
+          <div class="card-brand">Runway</div>
+          <div class="chip"></div>
+        </div>
+        <div class="card-balance">
+          <div class="label">Remaining credit</div>
+          <div class="amount">$47.20</div>
+        </div>
+        <div class="meter"><div class="meter-fill"></div></div>
+        <div class="card-foot">
+          <span>KEY •••• 8F02</span>
+          <span>NO EXPIRY · 12 MO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="trust-strip">
+  <div class="wrap">
+    <div class="trust-item"><span class="n">Fixed balance.</span> You always know exactly what's left.</div>
+    <div class="trust-item"><span class="n">No renewal.</span> Nothing bills automatically, ever.</div>
+    <div class="trust-item"><span class="n">Personalized usage updates.</span> Your balance and usage sent via WhatsApp.</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="how">
+    <div class="section-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Three steps, no ongoing commitment</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Pick a credit pack</h3>
+        <p>Choose the amount of usage that matches how much you actually build. Every pack shows the underlying model rates so you can estimate your own tokens.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>Get your key</h3>
+        <p>Your key is issued within minutes and works with Claude Code, Claude Cowork, or any tool that accepts a standard API key.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Spend it down</h3>
+        <p>Your balance and usage will be sent to you via WhatsApp. When it runs out, top up with a new pack whenever you're ready — no pressure, no clock running in the background.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="pricing">
+    <div class="section-head">
+      <div class="eyebrow">Credit packs</div>
+      <h2>Pay once. Spend down at your own pace.</h2>
+    </div>
+    <a href="https://wa.me/+254769173792?text=Hello%20Runway%2C%20I%20would%20like%20to%20buy%20the%20First%20Setup%20pack.%20Pack%3A%20KES%201499%20%2D%20Includes%205%20models%3A%20Claude%20Opus%204.6%2C%20Claude%20Opus%204.7%2C%20Claude%20Opus%204.8%2C%20GLM%205.2%2C%20GPT%205.5.%20Credit%20valid%2012%20months%20and%201%20month%20access." class="plan plan-link">
+      <span class="plan-tag">New Customer</span>
+      <h3>First Setup</h3>
+      <div class="price">KES 1299</div>
+      <div class="sub">First purchase</div>
+      <ul>
+        <li>Includes 5 models: Claude Opus 4.6, Claude Opus 4.7, Claude Opus 4.8, GLM 5.2, GPT 5.5</li>
+        <li>Good for occasional coding sessions</li>
+        <li>Usage dashboard included</li>
+        <li>Credit valid 12 months + 1 month access</li>
+      </ul>
+      <div class="plan-btn">Buy credit</div>
+    </a>
+    <a href="https://wa.me/+254769173792?text=Hello%20Runway%2C%20I%20would%20like%20to%20buy%20the%20Second%20Setup%20pack.%20Pack%3A%20KES%201199%20%2D%20Includes%205%20models%3A%20Claude%20Opus%204.6%2C%20Claude%20Opus%204.7%2C%20Claude%20Opus%204.8%2C%20GLM%205.2%2C%20GPT%205.5.%20Credit%20valid%2012%20months%20and%201%20month%20access." class="plan featured plan-link">
+      <span class="plan-tag">Repeat Purchase</span>
+      <h3>Second Setup</h3>
+      <div class="price">KES 999</div>
+      <div class="sub">Second purchase</div>
+      <ul>
+        <li>Includes 5 models: Claude Opus 4.6, Claude Opus 4.7, Claude Opus 4.8, GLM 5.2, GPT 5.5</li>
+        <li>Fits daily active development</li>
+        <li>Priority setup support</li>
+        <li>Credit valid 12 months + 1 month access</li>
+      </ul>
+      <div class="plan-btn">Buy credit</div>
+    </a>
+    <a href="https://wa.me/+254769173792?text=Hello%20Runway%2C%20I%20would%20like%20to%20buy%20the%20Third%20Setup%20pack.%20Pack%3A%20KES%20799%20%2D%20Includes%205%20models%3A%20Claude%20Opus%204.6%2C%20Claude%20Opus%204.7%2C%20Claude%20Opus%204.8%2C%20GLM%205.2%2C%20GPT%205.5.%20Credit%20valid%2012%20months%20and%201%20month%20access." class="plan plan-link">
+      <span class="plan-tag">Frequent User</span>
+      <h3>Third Setup</h3>
+      <div class="price">KES 599</div>
+      <div class="sub">Third purchase</div>
+      <ul>
+        <li>Includes 5 models: Claude Opus 4.6, Claude Opus 4.7, Claude Opus 4.8, GLM 5.2, GPT 5.5</li>
+        <li>Multi-seat key management</li>
+        <li>Direct support line</li>
+        <li>Credit valid 12 months + 1 month access</li>
+      </ul>
+      <div class="plan-btn">Buy credit</div>
+    </a>
+    <a href="https://wa.me/+254769173792?text=Hello%20Runway%2C%20I%20would%20like%20to%20buy%20the%20Fourth%20Setup%20pack.%20Pack%3A%20KES%20599%20%2D%20Includes%205%20models%3A%20Claude%20Opus%204.6%2C%20Claude%20Opus%204.7%2C%20Claude%20Opus%204.8%2C%20GLM%205.2%2C%20GPT%205.5.%20Credit%20valid%2012%20months%20and%201%20month%20access." class="plan plan-link">
+      <span class="plan-tag">Ultra User</span>
+      <h3>Fourth Setup</h3>
+      <div class="price">KES 399</div>
+      <div class="sub">Fourth purchase and onwards</div>
+      <ul>
+        <li>Includes 5 models: Claude Opus 4.6, Claude Opus 4.7, Claude Opus 4.8, GLM 5.2, GPT 5.5</li>
+        <li>Exclusive early access to new models</li>
+        <li>Dedicated account manager</li>
+        <li>Credit valid 12 months + 1 month access</li>
+      </ul>
+      <div class="plan-btn">Buy credit</div>
+    </a>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="faq">
+    <div class="section-head">
+      <div class="eyebrow">Good to know</div>
+      <h2>Straight answers, upfront</h2>
+    </div>
+    <div class="faq-item">
+      <h3>What am I actually paying for?</h3>
+      <p>You're prepaying for API usage across supported models, plus the setup, billing management, and support that comes with it. The gap between what you pay and the raw usage credit covers that service — shown clearly on every pack.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does the credit expire?</h3>
+      <p>Unused credit is valid for 12 months from purchase. There's no auto-renewal and nothing is ever charged without you buying a new pack.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What happens when my balance hits zero?</h3>
+      <p>Requests stop and you'll get a notice before you run out. Buy another pack whenever you want to keep going — there's no obligation to renew.</p>
+    </div>
+        <div class="faq-item">
+	      <h3>Which tools does the key work with?</h3>
+	      <p>Any tool that accepts a standard API key, including Claude Code and Claude Cowork. If you're unsure how to wire it up, support is included.</p>
+	    </div>
+	    <div class="faq-item">
+	      <h3>Do you have a referral program?</h3>
+	      <p>Yes! Refer a friend who makes their first purchase, and you'll receive KES 199 for a successful referral.</p>
+	    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <footer>
+    <p>© 2026 Runway. Prepaid API credit, no subscriptions.</p>
+    <p>stephenbranny@gmail.com</p>
+  </footer>
+</div>
+
+</body>
+</html>
